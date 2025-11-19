@@ -1,0 +1,15 @@
+#!/bin/bash
+
+for ip in {1..10}
+do
+	ping -c1 -W5 10.10.1.$ip
+	if [[ $? == 0 ]]
+	then
+		filename="config-10.10.1.$ip"
+		ssh -oHostKeyAlgorithms=+ssh-rsa admin@10.10.1.$ip "save config as-script \"$filename\""
+		scp -o HostKeyAlgorithms=+ssh-rsa admin@"10.10.1.$ip":"$filename".xsf .
+		switch_name=$(grep -hoE "(pb218|rack[0-9]{1,2})-(5320|5420m)-ex0[1-9]" "$filename".xsf)
+		mv "$filename".xsf "$switch_name".xsf
+	fi
+done
+
