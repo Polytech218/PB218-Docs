@@ -247,8 +247,6 @@ configure lldp management-address vlan Net-MGMT primary-ip
 #
 configure sntp-client primary 0.aerohive.pool.ntp.org vr VR-Default
 enable sntp-client
-enable dhcp vlan Access
-enable dhcp vlan Default
 
 
 #

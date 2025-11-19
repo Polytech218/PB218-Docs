@@ -39,6 +39,7 @@ configure vlan Net-MGMT add ports 1-24 tagged
 configure vlan Net-MGMT add ports 25-32 untagged  
 configure vlan Servers add ports 1-32 tagged  
 configure vlan WAN add ports 1-32 tagged  
+configure vlan Net-MGMT ipaddress 10.10.1.1 255.255.255.0
 configure vr VR-Default delete protocol mpls
 
 
@@ -60,6 +61,7 @@ configure vr VR-Default delete protocol mpls
 #
 # Module rtmgr configuration.
 #
+configure iproute add default 10.10.1.254
 
 
 #
@@ -224,7 +226,6 @@ configure iqagent server vr VR-Default
 #
 # Module lldp configuration.
 #
-configure lldp management-address vlan Net-MGMT primary-ip
 
 
 #
@@ -250,12 +251,12 @@ configure lldp management-address vlan Net-MGMT primary-ip
 #
 # Module netTools configuration.
 #
+configure dns-client add name-server 172.16.200.73 vr VR-Default
+configure dns-client add name-server 172.16.200.188 vr VR-Default
+configure dns-client add domain-suffix pb218.lab 
 configure sntp-client primary 0.aerohive.pool.ntp.org vr VR-Default
 configure sntp-client broadcast vr VR-Default
 enable sntp-client
-enable dhcp vlan Access
-enable dhcp vlan Default
-enable dhcp vlan Net-MGMT
 
 
 #
