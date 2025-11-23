@@ -20,6 +20,9 @@ configure vlan Access tag 99
 create vlan "Cluster-MGMT"
 configure vlan Cluster-MGMT description "Proxmox Cluster Management Network" 
 configure vlan Cluster-MGMT tag 200
+create vlan "Firewall-HA"
+configure vlan Firewall-HA description "Firewall HA VLAN" 
+configure vlan Firewall-HA tag 97
 create vlan "Net-MGMT"
 configure vlan Net-MGMT description "Management VLAN" 
 configure vlan Net-MGMT tag 100
@@ -32,12 +35,14 @@ configure vlan WAN tag 33
 configure vlan Access add ports 49-56 tagged  
 configure vlan Access add ports 1-32 untagged  
 configure vlan Cluster-MGMT add ports 1-32,49-56 tagged  
+configure vlan Firewall-HA add ports 20,23-28,31-32,49-56 tagged  
 configure vlan Net-MGMT add ports 1-32 tagged  
 configure vlan Net-MGMT add ports 49-56 untagged  
 configure vlan Servers add ports 1-32,49-56 tagged  
-configure vlan WAN add ports 49-56 tagged  
+configure vlan WAN add ports 20,23-28,31-32,49-56 tagged  
 configure vlan WAN add ports 33-48 untagged  
 configure vlan Net-MGMT ipaddress 10.10.1.6 255.255.255.0
+configure vr VR-Default delete protocol mpls
 
 
 #
@@ -218,6 +223,11 @@ configure iqagent server vr VR-Default
 
 
 #
+# Module isis configuration.
+#
+
+
+#
 # Module lldp configuration.
 #
 configure lldp management-address vlan Net-MGMT primary-ip
@@ -285,6 +295,11 @@ configure ospf vlan Net-MGMT priority 0
 
 
 #
+# Module ptpV2 configuration.
+#
+
+
+#
 # Module rip configuration.
 #
 
@@ -298,10 +313,10 @@ configure ospf vlan Net-MGMT priority 0
 # Module snmpMaster configuration.
 #
 configure snmpv3 engine-id 03:dc:23:3b:00:5c:00
-configure snmpv3 add user "snmpmgmt" engine-id 80:00:07:7c:03:dc:23:3b:00:5c:00 authentication md5 auth-encrypted localized-key 23:24:4d:63:6b:39:79:6d:6f:33:4c:4e:64:32:56:73:6e:63:43:72:59:59:4c:64:64:64:37:6d:2f:67:4c:6d:48:47:57:6c:2f:72:49:42:50:46:65:50:4f:57:61:5a:64:79:59:37:51:3d privacy aes 128 privacy-encrypted localized-key 23:24:67:53:64:54:66:6f:4a:58:79:54:63:30:4c:42:50:51:6a:53:56:74:4e:2b:72:6c:6b:74:64:39:61:36:6e:62:35:56:4a:35:6b:59:35:38:59:52:50:4a:44:42:45:73:31:6b:55:3d 
+configure snmpv3 add user "snmpmgmt" engine-id 80:00:07:7c:03:dc:23:3b:00:5c:00 authentication md5 privacy aes 128 
 configure snmpv3 add group "admin" user "snmpmgmt" sec-model usm 
-configure snmpv3 add community "basic_rw" encrypted name "#$YBdH+DLtrvJObrmS6PmLLYjwI4i0Iw==" user "v1v2c_rw" 
 configure snmpv3 add community "basic_ro" encrypted name "#$f5zMtmoNxL5SQiGaBGHpGcvhEhimWg==" user "v1v2c_ro" 
+configure snmpv3 add community "basic_rw" encrypted name "#$YBdH+DLtrvJObrmS6PmLLYjwI4i0Iw==" user "v1v2c_rw" 
 enable snmp access
 enable snmp access snmp-v1v2c
 enable snmp access snmpv3
@@ -310,11 +325,12 @@ enable snmp access snmpv3
 #
 # Module stp configuration.
 #
-configure stpd s0 add vlan Access ports 1-32,49-56 dot1d
-configure stpd s0 add vlan Cluster-MGMT ports 1-32,49-56 dot1d
-configure stpd s0 add vlan Net-MGMT ports 1-32,49-56 dot1d
-configure stpd s0 add vlan Servers ports 1-32,49-56 dot1d
-configure stpd s0 add vlan WAN ports 33-56 dot1d
+configure stpd s0 add vlan Access ports 2-32,49-56 dot1d
+configure stpd s0 add vlan Cluster-MGMT ports 2-32,49-56 dot1d
+configure stpd s0 add vlan Firewall-HA ports 20,23-28,31-32,49-56 dot1d
+configure stpd s0 add vlan Net-MGMT ports 2-32,49-56 dot1d
+configure stpd s0 add vlan Servers ports 2-32,49-56 dot1d
+configure stpd s0 add vlan WAN ports 20,23-28,31-56 dot1d
 
 
 #
@@ -335,10 +351,16 @@ configure stpd s0 add vlan WAN ports 33-56 dot1d
 #
 # Module thttpd configuration.
 #
+enable web https
 
 
 #
 # Module twamp configuration.
+#
+
+
+#
+# Module upm configuration.
 #
 
 
