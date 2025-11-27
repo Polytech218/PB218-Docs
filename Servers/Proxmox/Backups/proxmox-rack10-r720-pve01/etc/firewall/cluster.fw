@@ -1,0 +1,5 @@
+[RULES]
+
+IN DROP -p udp -dport 67 -sport 68 -log nolog
+IN DROP -p udp -dport 68 -sport 67 -log nolog
+

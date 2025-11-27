@@ -8,7 +8,8 @@
 for ip in 152 228 229 235 18 22 36 39 42; do
 	ping -c1 -W5 "172.16.200.$ip"
 	if [[ $? == 0 ]]; then
-		ssh_hostname=$(ssh root@172.16.200.$ip 'echo $hostname')
+		ssh_hostname=$(ssh root@172.16.200.$ip 'cat /etc/hostname')
+		echo $ssh_hostname
 		basename="proxmox-$ssh_hostname"
 		if [[ ! -d "$basename" ]]
 		then
@@ -19,13 +20,15 @@ for ip in 152 228 229 235 18 22 36 39 42; do
 		scp root@172.16.200.$ip:"/etc/hosts" "$basename/etc"
 		scp root@172.16.200.$ip:"/etc/network/interfaces" "$basename/etc/network/"
 		scp root@172.16.200.$ip:"/etc/resolv.conf" "$basename/etc/"
+		rm -rv "$basename/etc/pve/nodes/$ssh_hostname"
 		scp -r root@172.16.200.$ip:"/etc/pve/nodes/$ssh_hostname/qemu-server" "$basename/etc/"
 		scp -r root@172.16.200.$ip:"/etc/pve/nodes/$ssh_hostname/lxc" "$basename/etc/"
 
-		for file in $(find /etc/pve -maxdepth 1 | cut -d'/' -f4)
+		for file in $(ssh root@172.16.200.$ip "find /etc/pve -maxdepth 1 | cut -d'/' -f4")
 		do
 			if [[ ! -d "/etc/pve/nodes/$ssh_hostname/$file" && "$file" != "nodes" ]]
 			then
+				rm -v "$basename/etc/pve/$file"
 				scp -r root@172.16.200.$ip:"/etc/pve/$file" "$basename/etc/"
 			fi
 		done
