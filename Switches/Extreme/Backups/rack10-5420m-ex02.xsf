@@ -335,11 +335,11 @@ enable snmp access snmpv3
 #
 # Module stp configuration.
 #
-configure stpd s0 add vlan Access ports 2-32,49-56 dot1d
-configure stpd s0 add vlan Cluster-MGMT ports 2-32,49-56 dot1d
+configure stpd s0 add vlan Access ports 1-32,49-56 dot1d
+configure stpd s0 add vlan Cluster-MGMT ports 1-32,49-56 dot1d
 configure stpd s0 add vlan Firewall-HA ports 20,23-28,31-32,49-56 dot1d
-configure stpd s0 add vlan Net-MGMT ports 2-32,49-56 dot1d
-configure stpd s0 add vlan Servers ports 2-32,49-56 dot1d
+configure stpd s0 add vlan Net-MGMT ports 1-32,49-56 dot1d
+configure stpd s0 add vlan Servers ports 1-32,49-56 dot1d
 configure stpd s0 add vlan WAN ports 20,23-28,31-56 dot1d
 
 

@@ -17,6 +17,12 @@ configure vr VR-Default add ports 1-56
 create vlan "Access"
 configure vlan Access description "Student acccess network" 
 configure vlan Access tag 99
+create vlan "Cluster-MGMT"
+configure vlan Cluster-MGMT description "Proxmox Cluster Management Network" 
+configure vlan Cluster-MGMT tag 200
+create vlan "Firewall-HA"
+configure vlan Firewall-HA description "Firewall HA VLAN" 
+configure vlan Firewall-HA tag 97
 create vlan "Net-MGMT"
 configure vlan Net-MGMT description "Management VLAN" 
 configure vlan Net-MGMT tag 100
