@@ -13,7 +13,7 @@ for ip in {1..10}; do
 		sshpass -e ssh -oHostKeyAlgorithms=+ssh-rsa "admin@10.10.1.$ip" "save config as-script \"$filename\""
 		sshpass -e scp -o HostKeyAlgorithms=+ssh-rsa admin@"10.10.1.$ip":"primary.cfg" .
 		sshpass -e scp -o HostKeyAlgorithms=+ssh-rsa admin@"10.10.1.$ip":"$filename.xsf" .
-		switch_name=$(grep -hoE "(pb218|rack[0-9]{1,2})-(5320|5420m)-ex0[1-9]" "$filename.xsf")
+		switch_name=$(grep -hoE "(pb218|rack[0-9]{1,2})-(5320|5420m)-(ex|row)[0-9]{1,2}" "$filename.xsf")
 		mv "$filename".xsf "$switch_name.xsf"
 		mv "primary.cfg" "$switch_name.cfg"
 	fi
