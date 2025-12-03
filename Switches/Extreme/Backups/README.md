@@ -11,7 +11,7 @@ classDef spacer fill:transparent,stroke:transparent;
 
   
 
-subgraph RACK4 [rack4]
+subgraph RACK4 [Rack 4]
 
 direction TB
 
@@ -31,7 +31,7 @@ end
 
   
 
-subgraph RACK6 [rack6]
+subgraph RACK6 [Rack 6]
 
 direction TB
 
@@ -51,7 +51,7 @@ end
 
   
 
-subgraph RACK10 [rack10]
+subgraph RACK10 [Rack 10]
 
 direction TB
 
@@ -71,7 +71,7 @@ end
 
   
 
-subgraph PB218 [pb218]
+subgraph PB218 [PB218]
 
 direction TB
 
@@ -99,7 +99,7 @@ sw_pb218_5420m_ex01 -- "Port 1
 
 Untagged: Access
 
-Tagged: Net-MGMT, Servers" --> sw_rack10_5420m_ex02
+Tagged: Net-MGMT, Servers" -.- sw_rack10_5420m_ex02
 
 sw_pb218_5420m_ex01 -- "Port 2
 
