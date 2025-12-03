@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#!/bin/bash
+
+if [[ $SSHPASS == "" ]]; then
+	cat "Error: environment variable SSHPASS not set!" 0>&2
+	exit
+fi
+
+for ip in 172.16.3.2 10.10.1.15 172.16.200.3; do
+	ping -c1 -W5 "$ip"
+	if [[ $? == 0 ]]; then
+		filename="config-$ip"
+		sshpass -e ssh -oHostKeyAlgorithms=+ssh-rsa "admin@$ip" "save"
+		sshpass -e ssh -oHostKeyAlgorithms=+ssh-rsa "admin@$ip" "save config as-script \"$filename\""
+		sshpass -e scp -o HostKeyAlgorithms=+ssh-rsa admin@"$ip":"primary.cfg" .
+		sshpass -e scp -o HostKeyAlgorithms=+ssh-rsa admin@"$ip":"$filename.xsf" .
+		switch_name=$(grep -hoE "(pb218|rack[0-9]{1,2})-(5320|5420m)-(ex|row)[0-9]{1,2}" "$filename.xsf")
+		mv "$filename".xsf "$switch_name.xsf"
+		mv "primary.cfg" "$switch_name.cfg"
+	fi
+done
