@@ -2,10 +2,7 @@
         Neighbor           Neighbor                           Neighbor
 Port    Chassis ID         Port ID            TTL     Age     System Name
 ===============================================================================
-1       B0:27:CF:7E:27:00  mgt0               90      1       PB218
-2       AC:ED:32:F9:A8:00  2                  120     19      pb218-5420m-ex01
-46      78:18:EC:72:54:50  wan1               120     21      FortiGate-90G
-47      7C:21:0D:BB:9D:80  Gi0/10             120     21      PB218-Lab-Downlink.pb218.lab
+25      A4:C7:F6:85:F4:00  25                 120     27      rack6-5320-ex01
 ===============================================================================
 NOTE: The Chassis ID and/or Port ID might be truncated to fit the screen.
 

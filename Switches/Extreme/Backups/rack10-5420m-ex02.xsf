@@ -69,6 +69,7 @@ disable neighbor-discovery vr VR-Mgmt refresh
 # Module rtmgr configuration.
 #
 configure iproute add default 10.10.1.254
+configure iproute add 97.87.177.4 255.255.255.255 150.199.140.62
 configure iproute add 172.232.14.103 255.255.255.255 150.199.140.62
 
 
@@ -238,7 +239,6 @@ configure iqagent server vr VR-Default
 #
 # Module lldp configuration.
 #
-configure lldp management-address vlan Net-MGMT primary-ip
 
 
 #
@@ -286,7 +286,6 @@ enable sntp-client
 #
 # Module ospf configuration.
 #
-configure ospf vlan Net-MGMT priority 0
 
 
 #
