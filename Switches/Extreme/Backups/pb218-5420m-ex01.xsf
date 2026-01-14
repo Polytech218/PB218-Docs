@@ -23,6 +23,18 @@ configure vlan Cluster-MGMT tag 200
 create vlan "Firewall-HA"
 configure vlan Firewall-HA description "Firewall HA VLAN" 
 configure vlan Firewall-HA tag 97
+create vlan "Firewall-HA1-Backup"
+configure vlan Firewall-HA1-Backup description "Palo Alto HA1 Backup Link" 
+configure vlan Firewall-HA1-Backup tag 101
+create vlan "Firewall-HA2"
+configure vlan Firewall-HA2 description "Palo Alto HA2 Link" 
+configure vlan Firewall-HA2 tag 102
+create vlan "Firewall-HA2-Backup"
+configure vlan Firewall-HA2-Backup description "Palo Alto HA2 Backup Link" 
+configure vlan Firewall-HA2-Backup tag 103
+create vlan "Firewall-HA3"
+configure vlan Firewall-HA3 description "Palo Alto HA3 Link" 
+configure vlan Firewall-HA3 tag 104
 create vlan "Net-MGMT"
 configure vlan Net-MGMT description "Management VLAN" 
 configure vlan Net-MGMT tag 100
@@ -33,6 +45,10 @@ create vlan "WAN"
 configure vlan WAN description "WAN VLAN" 
 configure vlan WAN tag 33
 configure vlan Access add ports 1-48 untagged  
+configure vlan Firewall-HA1-Backup add ports 1-56 tagged  
+configure vlan Firewall-HA2 add ports 1-56 tagged  
+configure vlan Firewall-HA2-Backup add ports 1-56 tagged  
+configure vlan Firewall-HA3 add ports 1-56 tagged  
 configure vlan Net-MGMT add ports 1-48 tagged  
 configure vlan Net-MGMT add ports 49-56 untagged  
 configure vlan Servers add ports 1-56 tagged  
@@ -320,6 +336,10 @@ enable snmp access snmpv3
 # Module stp configuration.
 #
 configure stpd s0 add vlan Access ports 1-48 dot1d
+configure stpd s0 add vlan Firewall-HA1-Backup ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA2 ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA2-Backup ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA3 ports 1-56 dot1d
 configure stpd s0 add vlan Net-MGMT ports 1-56 dot1d
 configure stpd s0 add vlan Servers ports 1-56 dot1d
 
