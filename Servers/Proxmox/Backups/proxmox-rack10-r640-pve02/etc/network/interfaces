@@ -51,7 +51,8 @@ iface vmbr0 inet static
 	gateway 172.16.200.254
 	bridge-ports eno2np1
 	bridge-stp on
-	bridge-fd 0
+	bridge-vlan-aware yes
+	bridge-vids 2-4094
 
 auto LAN_1010
 iface LAN_1010 inet manual

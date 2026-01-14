@@ -36,21 +36,21 @@ iface enp4s0f1 inet manual
 
 auto bond0
 iface bond0 inet manual
-	bond-slaves bond1 bond2
+	bond-slaves bond1
 	bond-miimon 100
 	bond-mode active-backup
 	bond-primary bond1
 
 auto bond2
 iface bond2 inet manual
-	bond-slaves eno3 eno4
+	bond-slaves eno1 eno2
 	bond-miimon 100
 	bond-mode balance-rr
 #1Gbe Links
 
 auto bond1
 iface bond1 inet manual
-	bond-slaves none
+	bond-slaves enp4s0f0 enp4s0f1
 	bond-miimon 100
 	bond-mode balance-rr
 #10Gbe Links
@@ -59,7 +59,7 @@ auto vmbr0
 iface vmbr0 inet static
 	address 172.16.200.229/24
 	gateway 172.16.200.254
-	bridge-ports eno2
+	bridge-ports bond2
 	bridge-stp on
 
 auto vmbr1

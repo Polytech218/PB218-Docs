@@ -1,6 +1,6 @@
 {
 "nodename": "rack10-r720-pve06",
-"version": 16,
+"version": 19,
 "cluster": { "name": "PVE-Cluster", "version": 14, "nodes": 9, "quorate": 1 },
 "nodelist": {
   "rack10-r720-pve05": { "id": 6, "online": 1, "ip": "172.16.200.39"},
@@ -8,9 +8,9 @@
   "rack10-r640-pve03": { "id": 4, "online": 1, "ip": "192.168.103.6"},
   "PVE-Node02": { "id": 3, "online": 1, "ip": "192.168.103.2"},
   "rack10-r720-pve01": { "id": 9, "online": 1, "ip": "172.16.200.235"},
-  "PVE-Node01": { "id": 1, "online": 0, "ip": "192.168.103.1"},
+  "PVE-Node01": { "id": 1, "online": 1, "ip": "192.168.103.1"},
   "PVE-Node03": { "id": 2, "online": 1, "ip": "192.168.103.3"},
-  "rack10-r720-pve04": { "id": 8, "online": 0},
+  "rack10-r720-pve04": { "id": 8, "online": 1, "ip": "172.16.200.36"},
   "rack10-r720-pve06": { "id": 7, "online": 1, "ip": "192.168.103.9"}
   }
 }

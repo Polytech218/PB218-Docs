@@ -51,6 +51,8 @@ iface vmbr0 inet static
 	gateway 172.16.200.254
 	bridge-ports bond0
 	bridge-stp on
+	bridge-vlan-aware yes
+	bridge-vids 2-4094
 
 iface LAN_1010
 	bridge-ports none
