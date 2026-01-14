@@ -337,6 +337,8 @@ enable snmp access snmpv3
 #
 # Module stp configuration.
 #
+configure stpd s0 priority 53248 extended-system-id 0
+configure stpd s0 backup-root on
 configure stpd s0 add vlan Access ports 1-32 dot1d
 configure stpd s0 add vlan Cluster-MGMT ports 1-32 dot1d
 configure stpd s0 add vlan Firewall-HA ports 1-32 dot1d

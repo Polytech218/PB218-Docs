@@ -23,6 +23,18 @@ configure vlan Cluster-MGMT tag 200
 create vlan "Firewall-HA"
 configure vlan Firewall-HA description "Firewall HA VLAN" 
 configure vlan Firewall-HA tag 97
+create vlan "Firewall-HA1-Backup"
+configure vlan Firewall-HA1-Backup description "Palo Alto HA1 Backup Link" 
+configure vlan Firewall-HA1-Backup tag 101
+create vlan "Firewall-HA2"
+configure vlan Firewall-HA2 description "Palo Alto HA2 Link" 
+configure vlan Firewall-HA2 tag 102
+create vlan "Firewall-HA2-Backup"
+configure vlan Firewall-HA2-Backup description "Palo Alto HA2 Backup Link" 
+configure vlan Firewall-HA2-Backup tag 103
+create vlan "Firewall-HA3"
+configure vlan Firewall-HA3 description "Palo Alto HA3 Link" 
+configure vlan Firewall-HA3 tag 104
 create vlan "Net-MGMT"
 configure vlan Net-MGMT description "Management VLAN" 
 configure vlan Net-MGMT tag 100
@@ -35,11 +47,15 @@ configure vlan WAN tag 33
 configure vlan Access add ports 49-56 tagged  
 configure vlan Access add ports 1-32 untagged  
 configure vlan Cluster-MGMT add ports 1-32,49-56 tagged  
-configure vlan Firewall-HA add ports 20,23-28,31-32,49-56 tagged  
+configure vlan Firewall-HA add ports 1-56 tagged  
+configure vlan Firewall-HA1-Backup add ports 1-56 tagged  
+configure vlan Firewall-HA2 add ports 1-56 tagged  
+configure vlan Firewall-HA2-Backup add ports 1-56 tagged  
+configure vlan Firewall-HA3 add ports 1-56 tagged  
 configure vlan Net-MGMT add ports 1-32 tagged  
 configure vlan Net-MGMT add ports 49-56 untagged  
 configure vlan Servers add ports 1-32,49-56 tagged  
-configure vlan WAN add ports 20,23-28,31-32,49-56 tagged  
+configure vlan WAN add ports 1-32,49-56 tagged  
 configure vlan WAN add ports 33-48 untagged  
 configure vlan Net-MGMT ipaddress 10.10.1.7 255.255.255.0
 configure vr VR-Default delete protocol mpls
@@ -259,7 +275,6 @@ configure dns-client add name-server 1.0.0.1 vr VR-Default
 configure dns-client add domain-suffix pb218.lab 
 configure sntp-client primary 0.aerohive.pool.ntp.org vr VR-Default
 enable sntp-client
-enable dhcp vlan Access
 enable dhcp vlan Default
 enable dhcp vlan Mgmt
 
@@ -277,7 +292,6 @@ enable dhcp vlan Mgmt
 #
 # Module ospf configuration.
 #
-configure ospf vlan Access priority 0
 configure ospf vlan Net-MGMT priority 0
 
 
@@ -327,12 +341,18 @@ enable snmp access snmpv3
 #
 # Module stp configuration.
 #
+configure stpd s0 priority 57344 extended-system-id 0
+configure stpd s0 backup-root on
 configure stpd s0 add vlan Access ports 1-32,49-56 dot1d
 configure stpd s0 add vlan Cluster-MGMT ports 1-32,49-56 dot1d
-configure stpd s0 add vlan Firewall-HA ports 20,23-28,31-32,49-56 dot1d
+configure stpd s0 add vlan Firewall-HA ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA1-Backup ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA2 ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA2-Backup ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA3 ports 1-56 dot1d
 configure stpd s0 add vlan Net-MGMT ports 1-32,49-56 dot1d
 configure stpd s0 add vlan Servers ports 1-32,49-56 dot1d
-configure stpd s0 add vlan WAN ports 20,23-28,31-56 dot1d
+configure stpd s0 add vlan WAN ports 1-56 dot1d
 
 
 #

@@ -14,15 +14,25 @@ configure power monitor poll-interval 60 change-action trap change-threshold 10
 configure vlan default delete ports all
 configure vr VR-Default delete ports 1-56
 configure vr VR-Default add ports 1-56
+create vr "VR-OSPF" type vrf vr "VR-Default" 
 create vlan "Access"
 configure vlan Access description "Student acccess network" 
 configure vlan Access tag 99
 create vlan "Cluster-MGMT"
 configure vlan Cluster-MGMT description "Proxmox Cluster Management Network" 
 configure vlan Cluster-MGMT tag 200
-create vlan "Firewall-HA"
-configure vlan Firewall-HA description "Firewall HA VLAN" 
-configure vlan Firewall-HA tag 97
+create vlan "Firewall-HA1-Backup"
+configure vlan Firewall-HA1-Backup description "Palo Alto HA1 Backup Link" 
+configure vlan Firewall-HA1-Backup tag 101
+create vlan "Firewall-HA2"
+configure vlan Firewall-HA2 description "Palo Alto HA2 Link" 
+configure vlan Firewall-HA2 tag 102
+create vlan "Firewall-HA2-Backup"
+configure vlan Firewall-HA2-Backup description "Palo Alto HA2 Backup Link" 
+configure vlan Firewall-HA2-Backup tag 103
+create vlan "Firewall-HA3"
+configure vlan Firewall-HA3 description "Palo Alto HA3 Link" 
+configure vlan Firewall-HA3 tag 104
 create vlan "Net-MGMT"
 configure vlan Net-MGMT description "Management VLAN" 
 configure vlan Net-MGMT tag 100
@@ -35,16 +45,19 @@ configure vlan WAN tag 33
 configure vlan Access add ports 49-56 tagged  
 configure vlan Access add ports 1-32 untagged  
 configure vlan Cluster-MGMT add ports 1-32,49-56 tagged  
-configure vlan Firewall-HA add ports 20,23-28,31-32,49-56 tagged  
+configure vlan Firewall-HA1-Backup add ports 1-56 tagged  
+configure vlan Firewall-HA2 add ports 1-56 tagged  
+configure vlan Firewall-HA2-Backup add ports 1-56 tagged  
+configure vlan Firewall-HA3 add ports 1-56 tagged  
 configure vlan Net-MGMT add ports 1-32 tagged  
 configure vlan Net-MGMT add ports 49-56 untagged  
 configure vlan Servers add ports 1-32,49-56 tagged  
-configure vlan WAN add ports 20,23-28,31-32,49-56 tagged  
+configure vlan WAN add ports 1-32,49-56 tagged  
 configure vlan WAN add ports 33-48 untagged  
-configure vlan Access ipaddress 172.16.200.23 255.255.255.0
-configure vlan Cluster-MGMT ipaddress 192.168.103.10 255.255.255.0
 configure vlan Net-MGMT ipaddress 10.10.1.6 255.255.255.0
+enable ipforwarding vlan Net-MGMT
 configure vlan WAN ipaddress 150.199.140.35 255.255.255.224
+enable ipforwarding vlan WAN
 configure vr VR-Default delete protocol mpls
 
 
@@ -156,6 +169,22 @@ save configuration automatic every 2 primary
 #
 # Module edp configuration.
 #
+disable edp ports 33
+disable edp ports 34
+disable edp ports 35
+disable edp ports 36
+disable edp ports 37
+disable edp ports 38
+disable edp ports 39
+disable edp ports 40
+disable edp ports 41
+disable edp ports 42
+disable edp ports 43
+disable edp ports 44
+disable edp ports 45
+disable edp ports 46
+disable edp ports 47
+disable edp ports 48
 
 
 #
@@ -286,6 +315,9 @@ enable sntp-client
 #
 # Module ospf configuration.
 #
+configure ospf routerid 10.10.1.6
+enable ospf
+configure ospf add vlan Net-MGMT area 0.0.0.0 
 
 
 #
@@ -334,9 +366,14 @@ enable snmp access snmpv3
 #
 # Module stp configuration.
 #
+configure stpd s0 priority 61440 extended-system-id 0
+configure stpd s0 backup-root on
 configure stpd s0 add vlan Access ports 1-32,49-56 dot1d
 configure stpd s0 add vlan Cluster-MGMT ports 1-32,49-56 dot1d
-configure stpd s0 add vlan Firewall-HA ports 20,23-28,31-32,49-56 dot1d
+configure stpd s0 add vlan Firewall-HA1-Backup ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA2 ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA2-Backup ports 1-56 dot1d
+configure stpd s0 add vlan Firewall-HA3 ports 1-56 dot1d
 configure stpd s0 add vlan Net-MGMT ports 1-32,49-56 dot1d
 configure stpd s0 add vlan Servers ports 1-32,49-56 dot1d
 configure stpd s0 add vlan WAN ports 20,23-28,31-56 dot1d
