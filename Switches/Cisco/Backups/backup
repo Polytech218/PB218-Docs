@@ -3,7 +3,7 @@
 #!/bin/bash
 
 if [[ $SSHPASS == "" ]]; then
-	cat "Error: environment variable SSHPASS not set!" 0>&2
+	echo "Error: environment variable SSHPASS not set!" 0>&2
 	exit
 fi
 
